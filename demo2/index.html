@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // ifrmae 存的 data
+      localStorage.setItem("name", "111");
+      // 监听 message 事件
+      window.addEventListener(
+        "message",
+        function (event) {
+          if (event.origin === "http://localhost:8001") {
+            // console.log("message from 8001", event.data);
+            localStorage.setItem("demo2", JSON.stringify(event.data));
+            // iframe 的 storage 传给父级
+            event.source.postMessage(
+              {
+                name: localStorage.getItem("name"),
+                demo2: localStorage.getItem("demo2"),
+              },
+              event.origin
+            );
+          }
+        },
+        false
+      );
+    </script>
+    <p>demo2 page</p>
+  </body>
+</html>
